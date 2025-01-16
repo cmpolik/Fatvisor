@@ -1,0 +1,21 @@
+import bpy
+import json
+
+# Путь к JSON-файлу
+file_path = "/Users/Сергей/Desktop/cmpolik/cameras/cam1"
+
+# Загрузка данных из JSON
+with open(file_path, 'r') as file:
+    cameras_data = json.load(file)
+
+# Создание камер на основе данных
+for cam_data in cameras_data:
+    # Создаём объект камеры
+    camera = bpy.data.cameras.new(name=cam_data["name"])
+    camera_obj = bpy.data.objects.new(name=cam_data["name"], object_data=camera)
+    bpy.context.collection.objects.link(camera_obj)
+    
+    # Устанавливаем параметры камеры
+    camera_obj.location = cam_data["location"]
+    camera_obj.rotation_euler = cam_data["rotation"]
+
